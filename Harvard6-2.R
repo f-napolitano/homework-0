@@ -338,3 +338,16 @@ gapminder %>% filter(region == "Caribbean") %>%
                           'St. Vincent and the Grenadines' = "St. Vincent", 
                           'Trinidad and Tobago' = "Trinidad")) %>% 
   ggplot(aes(year, life_expectancy, color = country)) + geom_line()
+
+# ----- 3.3.8. Assessment Part2 String Processing 3 -----------------
+library(rvest)
+library(tidyverse)
+library(stringr)
+
+url <- "https://en.wikipedia.org/w/index.php?title=Opinion_polling_for_the_United_Kingdom_European_Union_membership_referendum&oldid=896735054"
+tab <- read_html(url) %>% html_nodes("table")
+polls <- tab[[6]] %>% html_table(fill = TRUE)
+
+polls <- polls %>% setNames(c("dates", "remain", "leave", "undecided", "lead", "samplesize", "pollster", "poll_type", "notes")) %>%
+  filter(str_ends(remain, "%"))
+polls <- str_rep
